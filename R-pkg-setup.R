@@ -28,5 +28,8 @@ usethis::use_data(raw_plot, raw_tree, raw_species, raw_wdsp, raw_wdgn)
 ## Check
 devtools::check()
 
-## convert Roxygen to .Rd files
+## convert Roxygen to .Rd files in man/
 devtools::document()
+
+## Install
+devtools::install()
