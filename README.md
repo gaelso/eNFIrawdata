@@ -1,7 +1,5 @@
 
-# eNFIrawdata
-
-Raw data for the `eNFI` package
+# eNFIrawdata: raw data for the `eNFI` package <img src='images/eNFIrawdata-logo.png' align="right" height="139" /></a>
 
 ## Overview
 
