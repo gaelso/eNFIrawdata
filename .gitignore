@@ -1,3 +1,6 @@
+## Custom gitignore
+data-tmp/
+
 # History files
 .Rhistory
 .Rapp.history

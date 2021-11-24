@@ -1,2 +1,4 @@
 ^eNFIrawdata\.Rproj$
 ^\.Rproj\.user$
+^\data-tmp\.csv$
+^R-pkg-setup.R$
