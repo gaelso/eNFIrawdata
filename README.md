@@ -18,12 +18,9 @@ The objective of this package is to provide a large set of anonymized tree measu
 
 Although the original data comes from real forest measurements (as opposed to simulated data), forest plot coordinates and tree species have been removed, and ancillary information altered. This makes the data relevant to showcases procedures for analyzing forest inventories but the results should not be used to draw any conclusion on the status of a particular forest or on forest trends in general.
 
-
-## Use cases
-
 To see this data in action, have a look at the FAO [National Forest Inventory eLearning Modules](https://www.fao.org/national-forest-monitoring/areas-of-work/nfi/modules/en/) and in particular at the practice module: **Conduct an NFI**.
 
-This module provides information and instructions on the practice lessons accessible via the [`eNFI` package](https://github.com/gaelso/eNFI)
+This module provides information and instructions on the practice lessons accessible via the `eNFI` package.
 
 
 ## Origin of the data
