@@ -22,3 +22,11 @@ for (i in seq_along(tt)){
 }
 
 usethis::use_data(raw_plot, raw_tree, raw_species, raw_wdsp, raw_wdgn)
+
+## data description added to R/
+
+## Check
+devtools::check()
+
+## convert Roxygen to .Rd files
+devtools::document()

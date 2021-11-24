@@ -9,8 +9,7 @@ Authors@R:
         role   = c("aut", "cre")
       )
     )
-Description: Tree measurements in tropical forests curated for educational 
-    purposes
+Description: Tree measurements in tropical forests curated for educational purposes.
 License: CC BY-NC-ND 4.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

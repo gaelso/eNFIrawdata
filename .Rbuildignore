@@ -1,4 +1,6 @@
 ^eNFIrawdata\.Rproj$
 ^\.Rproj\.user$
-^\data-tmp\.csv$
-^R-pkg-setup.R$
+^data-tmp$
+^images$
+^R-pkg-setup\.R$
+^LICENSE\.md$
