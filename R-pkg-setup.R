@@ -23,6 +23,9 @@ for (i in seq_along(tt)){
 
 usethis::use_data(raw_plot, raw_tree, raw_species, raw_wdsp, raw_wdgn)
 
+## Check for recommended compression 
+tools::checkRdaFiles("data/raw_wdgn.Rda")
+
 ## data description added to R/
 
 ## Check
@@ -35,4 +38,4 @@ devtools::document()
 devtools::install()
 
 ## Add github actions
-usethis::use_github_action("check-full")
+usethis::use_github_action("check-standard")
