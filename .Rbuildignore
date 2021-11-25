@@ -4,3 +4,4 @@
 ^images$
 ^R-pkg-setup\.R$
 ^LICENSE\.md$
+^\.github$
