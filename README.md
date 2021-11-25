@@ -2,7 +2,7 @@
 # eNFIrawdata: raw data for the `eNFI` package <img src='images/eNFIrawdata-logo.png' align="right" height="139" /></a>
 
 <!-- Start Badges -->
-[![R-CMD-check](https://github.com/gaelso/eNFIrawdata/actions/workflows/check-full.yaml/badge.svg)](https://github.com/gaelso/eNFIrawdata/actions/workflows/check-full.yaml)
+[![R-CMD-check](https://github.com/gaelso/eNFIrawdata/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/gaelso/eNFIrawdata/actions/workflows/check-standard.yaml)
 
 <!-- End Badges -->
 
