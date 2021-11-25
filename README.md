@@ -1,6 +1,12 @@
 
 # eNFIrawdata: raw data for the `eNFI` package <img src='images/eNFIrawdata-logo.png' align="right" height="139" /></a>
 
+<!-- Start Badges -->
+[![R-CMD-check](https://github.com/gaelso/eNFIrawdata/actions/workflows/check-full.yaml/badge.svg)](https://github.com/gaelso/eNFIrawdata/actions/workflows/check-full.yaml)
+
+<!-- End Badges -->
+
+
 ## Overview
 
 This package provides raw data for the package `eNFI`: [eLearning National Forest Inventory](https://github.com/gaelso/eNFI).

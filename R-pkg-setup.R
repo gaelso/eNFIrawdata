@@ -33,3 +33,6 @@ devtools::document()
 
 ## Install
 devtools::install()
+
+## Add github actions
+usethis::use_github_action("check-full")
