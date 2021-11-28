@@ -13,7 +13,7 @@ library(tidyverse)
 ## Make package files
 # usethis::create_package("D:/github-repos/eNFIrawdata")
 
-## create data files
+## create NFI data files
 tt <- list.files("data-tmp", full.names = T)
 
 for (i in seq_along(tt)){
@@ -22,6 +22,9 @@ for (i in seq_along(tt)){
 }
 
 usethis::use_data(raw_plot, raw_tree, raw_species, raw_wdsp, raw_wdgn)
+
+## Create Louland spatial data
+source("data-raw/create-louland.R", local = TRUE)
 
 ## Check for recommended compression 
 tools::checkRdaFiles("data/raw_wdgn.Rda")
