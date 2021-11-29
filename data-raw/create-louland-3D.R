@@ -47,8 +47,8 @@ library(scales)
 #' @export
 make_3d <- function(.newland, .width = 250, .height = 250){
   
-  topo <- raster::raster(.newland$topo_map)
-  lc   <- raster::raster(.newland$lc_map) 
+  topo <- .newland$topo_map
+  lc   <- .newland$lc_map 
   
   lc_param <- .newland$param %>% 
     dplyr::bind_cols(tibble::as_tibble(t(col2rgb(.$hex)), .name_repair = ~c("r", "g", "b")))

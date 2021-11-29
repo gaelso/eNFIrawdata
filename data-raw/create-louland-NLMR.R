@@ -8,7 +8,6 @@ library(tidyverse)
 library(NLMR)
 library(landscapetools)
 library(raster)
-library(terra)
 
 ## Function
 #' Create a new land
@@ -114,37 +113,30 @@ create_newland <- function(.seed = 11, .alt = 2000, .sea = 0.2, .mg = T){
   ## --- Make base layers ---------------------------------------------------
   if (!is.null(.seed)) set.seed(.seed)
   topo_mpd <- NLMR::nlm_mpd(nrow = mp+5,  ncol = mp+5, resolution = rr, roughness = 0.4, rescale = T, verbose = F)
-  topo_mpd <- terra::crop(terra::rast(topo_mpd), terra::ext(0, ll, 0, ll))
+  topo_mpd <- raster::crop(topo_mpd, raster::extent(0, ll, 0, ll))
   # topo_mpd
   # plot(topo_mpd)
   
   ## --- Apply sea ratio and max altitude -----------------------------------
   ## --- Translate a percentage of the pixels equal to .sea below 0
-  ## With the raster package:
-  ## topo_calc <- topo_mpd - raster::quantile(raster::raster(topo_mpd), probs = .sea)
-  topo_calc <- topo_mpd - as.numeric(terra::global(x = topo_mpd, quantile, probs = .sea))
+  topo_calc <- topo_mpd - raster::quantile(topo_mpd, probs = .sea)
+  
   
   ## --- Apply different max altitude to sea bottom and mountain top
-  ## With the raster package:
-  ## z_min <- raster::cellStats(raster::raster(topo_calc), "min")
-  ## z_max <- raster::cellStats(raster::raster(topo_calc), "max")
-  z_min <- as.numeric(terra::global(topo_calc, "min"))
-  z_max <- as.numeric(terra::global(topo_calc, "max"))
+  z_min <- raster::cellStats(topo_calc, "min")
+  z_max <- raster::cellStats(topo_calc, "max")
   
   ## With the raster package:
-  ## topo_calc[topo_calc <= 0] <- round(topo_calc[topo_calc <= 0] / abs(z_min) * (.alt / 4))
-  ## topo_calc[topo_calc >  0] <- round(topo_calc[topo_calc >  0] / z_max * (.alt))
-  topo_calc[topo_calc <= 0] <- round(topo_calc / abs(z_min) * (.alt / 4))
-  topo_calc[topo_calc >  0] <- round(topo_calc / z_max * (.alt))
+  topo_calc[topo_calc <= 0] <- round(topo_calc[topo_calc <= 0] / abs(z_min) * (.alt / 4))
+  topo_calc[topo_calc >  0] <- round(topo_calc[topo_calc >  0] / z_max * (.alt))
   
   ## --- Make smoother topo -------------------------------------------------
   ## With the raster package
-  ## topo <- raster::focal(topo_calc, w = matrix(1/31^2, nc=31, nr=31), pad = T, padValue = 0) ## Supposed to be faster
-  topo <- terra::focal(x = topo_calc, w = matrix(1, 31, 31), fun = "mean", fillvalue = 0)
+  topo <- raster::focal(topo_calc, w = matrix(1/31^2, nc=31, nr=31), pad = T, padValue = 0) ## Supposed to be faster
   
   ## Add location
-  terra::crs(topo)    <- country_loc$crs
-  terra::ext(topo) <- c(country_loc$xmin, country_loc$xmin + ll, country_loc$ymin, country_loc$ymin + ll)
+  raster::crs(topo)    <- country_loc$crs
+  raster::extent(topo) <- c(country_loc$xmin, country_loc$xmin + ll, country_loc$ymin, country_loc$ymin + ll)
   
   ## Test
   # plot(topo)
@@ -172,8 +164,8 @@ create_newland <- function(.seed = 11, .alt = 2000, .sea = 0.2, .mg = T){
   ## --- Make base layers at 100 row and cols rasters -----------------------
   if (!is.null(.seed)) set.seed(.seed)
   ft_mpd <- NLMR::nlm_mpd(nrow = mp+5,  ncol = mp+5, resolution = rr, roughness = 0.7, rescale = T, verbose = F)
-  ft_mpd <- terra::crop(terra::rast(ft_mpd), terra::ext(0, ll, 0, ll))
-  ft_mpd <- terra::aggregate(ft_mpd, fact = 10, fun = "mean") 
+  ft_mpd <- raster::crop(ft_mpd, raster::extent(0, ll, 0, ll))
+  ft_mpd <- raster::aggregate(ft_mpd, fact = 10, fun = "mean") 
   
   bkp_warn <- getOption("warn")
   options(warn = -1)
@@ -182,7 +174,7 @@ create_newland <- function(.seed = 11, .alt = 2000, .sea = 0.2, .mg = T){
                      categories = 5, proportions = ft_param$w, neighbourhood = 8)
   options(warn = bkp_warn)
   ## Need raster package for util_* functions
-  ft_res <- landscapetools::util_merge(raster::raster(ft_mpd), ft_ne, scalingfactor = 0.1)
+  ft_res <- landscapetools::util_merge(ft_mpd, ft_ne, scalingfactor = 0.1)
   
   # Test
   # landscapetools::show_landscape(list("mpd" = ft_mpd, "ne" = ft_ne, "res" = ft_res), n_col = 1)
@@ -191,12 +183,9 @@ create_newland <- function(.seed = 11, .alt = 2000, .sea = 0.2, .mg = T){
   ft <- raster::disaggregate(ft_res, fact = 10, method = 'bilinear')
   ft <- landscapetools::util_classify(ft, weighting = ft_param$w, level_names = ft_param$id)
   
-  ## Convert to SpatRaster
-  ft <- terra::rast(ft)
-  
   ## Add location
-  terra::crs(ft)    <- country_loc$crs
-  terra::ext(ft) <- c(country_loc$xmin, country_loc$xmin + ll, country_loc$ymin, country_loc$ymin + ll)
+  raster::crs(ft) <- country_loc$crs
+  raster::extent(ft) <- c(country_loc$xmin, country_loc$xmin + ll, country_loc$ymin, country_loc$ymin + ll)
   
   ## Message Forest type
   time2 <- Sys.time()
@@ -237,7 +226,7 @@ create_newland <- function(.seed = 11, .alt = 2000, .sea = 0.2, .mg = T){
   lc <- ft
   
   ## With raster package, changing levels requires ratify()
-  ## lc <- ratify(lc)
+  lc <- ratify(lc)
   
   ## Update levels
   levels(lc) <- lc_param %>% dplyr::select(ID = lc_id, lc) %>% as.data.frame() 
@@ -262,8 +251,8 @@ create_newland <- function(.seed = 11, .alt = 2000, .sea = 0.2, .mg = T){
   topo_map <- topo 
   lc_map <- lc
   
-  topo <- terra::disagg(topo, fact = 3, method = "near")
-  lc   <- terra::disagg(lc, fact = 3, method = "near")
+  topo <- raster::disaggregate(topo, fact = 3, method = "")
+  lc   <- raster::disaggregate(lc, fact = 3, method = "")
   levels(lc) <- lc_param %>% dplyr::select(ID = lc_id, lc) %>% as.data.frame() 
   
   
