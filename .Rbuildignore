@@ -1,7 +1,6 @@
 ^eNFIrawdata\.Rproj$
 ^\.Rproj\.user$
 ^data-tmp$
-^data-raw$
 ^images$
 ^R-pkg-setup\.R$
 ^LICENSE\.md$
